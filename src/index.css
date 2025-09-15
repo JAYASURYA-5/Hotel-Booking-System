@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hotel Booking System Design System - Luxury & Elegance */
+
+@layer base {
+  :root {
+    /* Brand Colors - Luxury Hotel Theme */
+    --background: 0 0% 100%;
+    --foreground: 215 25% 15%;
+    
+    /* Navy & Gold Luxury Palette */
+    --primary: 215 85% 15%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 215 50% 25%;
+    
+    --secondary: 42 88% 75%;
+    --secondary-foreground: 215 25% 15%;
+    --secondary-dark: 42 95% 55%;
+    
+    /* Elegant Neutrals */
+    --accent: 215 15% 95%;
+    --accent-foreground: 215 25% 15%;
+    --accent-dark: 215 15% 88%;
+    
+    --muted: 215 15% 96%;
+    --muted-foreground: 215 15% 45%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 15%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 15%;
+    
+    --border: 215 15% 90%;
+    --input: 215 15% 95%;
+    --ring: 215 85% 15%;
+    
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 42 95% 55%;
+    --warning-foreground: 215 25% 15%;
+    
+    /* Luxury Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 50%, hsl(var(--secondary-dark)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--accent)) 100%);
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary-dark)) 100%);
+    
+    /* Elegant Shadows */
+    --shadow-luxury: 0 20px 60px -12px hsl(var(--primary) / 0.25);
+    --shadow-card: 0 8px 32px -8px hsl(var(--primary) / 0.12);
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.08);
+    
+    /* Premium Spacing */
+    --spacing-luxury: 4rem;
+    --spacing-section: 6rem;
+    
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  
+  .dark {
+    --background: 215 25% 8%;
+    --foreground: 0 0% 95%;
+    --primary: 42 88% 65%;
+    --primary-foreground: 215 25% 15%;
+    --secondary: 215 15% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --accent: 215 15% 15%;
+    --accent-foreground: 0 0% 95%;
+    --muted: 215 15% 12%;
+    --muted-foreground: 215 15% 65%;
+    --card: 215 25% 10%;
+    --card-foreground: 0 0% 95%;
+    --border: 215 15% 20%;
+    --input: 215 15% 15%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Luxury Button Variants */
+  .btn-luxury {
+    @apply bg-gradient-to-r from-secondary to-secondary-dark text-secondary-foreground 
+           shadow-lg hover:shadow-xl transition-all duration-300 
+           hover:scale-105 font-semibold;
+  }
+  
+  .btn-hero {
+    @apply bg-primary text-primary-foreground hover:bg-primary-light
+           shadow-luxury-premium transition-all duration-300 hover:scale-105;
+  }
+  
+  /* Card Styles */
+  .card-luxury {
+    @apply bg-gradient-to-br from-card to-accent border-0
+           shadow-luxury-card transition-all duration-300
+           hover:-translate-y-1;
+  }
+  .card-luxury:hover {
+    box-shadow: var(--shadow-luxury);
+  }
+  
+  /* Hero Section */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+  
+  /* Animations */
+  .animate-fade-up {
+    @apply animate-[fadeUp_0.6s_ease-out_forwards];
+  }
+  
+  .animate-fade-in {
+    @apply animate-[fadeIn_0.8s_ease-out_forwards];
+  }
+  
+  .animate-slide-in {
+    @apply animate-[slideIn_0.5s_ease-out_forwards];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary-dark bg-clip-text text-transparent;
+  }
+  
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/10 border border-white/20;
+  }
+  
+  .shadow-luxury-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-luxury-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-luxury-premium {
+    box-shadow: var(--shadow-luxury);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
