@@ -15,6 +15,8 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 
+const BACKEND_URL = "http://localhost:8080";
+
 interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -65,9 +67,8 @@ const BookingModal = ({ isOpen, onClose, hotel }: BookingModalProps) => {
     };
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!checkIn || !checkOut || !guestInfo.firstName || !guestInfo.lastName || !guestInfo.email) {
       toast({
         title: "Missing Information",
@@ -77,24 +78,51 @@ const BookingModal = ({ isOpen, onClose, hotel }: BookingModalProps) => {
       return;
     }
 
-    const booking = {
-      hotel,
-      checkIn,
-      checkOut,
-      guests,
-      rooms,
-      guestInfo,
+    const bookingPayload = {
+      hotelId: hotel.id,
+      hotelName: hotel.name,
+      hotelLocation: hotel.location,
+      hotelImage: hotel.image,
+      hotelPrice: hotel.price,
+      hotelRating: hotel.rating,
+      checkIn: checkIn.toISOString().slice(0, 10),
+      checkOut: checkOut.toISOString().slice(0, 10),
+      guests: parseInt(guests),
+      rooms: parseInt(rooms),
+      firstName: guestInfo.firstName,
+      lastName: guestInfo.lastName,
+      email: guestInfo.email,
+      phone: guestInfo.phone,
+      specialRequests: guestInfo.specialRequests,
       total: calculateTotal().total,
     };
 
-    console.log("Booking submitted:", booking);
-    
-    toast({
-      title: "Booking Confirmed!",
-      description: `Your reservation at ${hotel.name} has been confirmed. You'll receive a confirmation email shortly.`,
-    });
-
-    onClose();
+    try {
+      const res = await fetch(`${BACKEND_URL}/bookings`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingPayload),
+      });
+      if (res.ok) {
+        toast({
+          title: "Booking Confirmed!",
+          description: `Your reservation at ${hotel.name} has been confirmed. You'll receive a confirmation email shortly.`,
+        });
+        onClose();
+      } else {
+        toast({
+          title: "Booking Failed",
+          description: "There was an error saving your booking. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (err) {
+      toast({
+        title: "Booking Failed",
+        description: "Could not connect to server.",
+        variant: "destructive",
+      });
+    }
   };
 
   const pricing = calculateTotal();

@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Wifi, Car, Coffee, Dumbbell } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useState } from "react";
+import BookingModal from "@/components/BookingModal";
 
 // Import images
 import luxurySuite from "@/assets/luxury-suite.jpg";
@@ -180,7 +182,7 @@ const getAmenityIcon = (amenity: string) => {
     default: return null;
   }
 };
-
+<Button onClick={() => setIsBookingModalOpen(true)}>Book Now</Button>
 const renderStars = (rating: number) => {
   return Array.from({ length: 5 }, (_, i) => (
     <Star
@@ -193,6 +195,19 @@ const renderStars = (rating: number) => {
 };
 
 const Hotels = () => {
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleBookNow = (hotel) => {
+    setSelectedHotel(hotel);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedHotel(null);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -243,7 +258,7 @@ const Hotels = () => {
                     ₹{hotel.price}
                     <span className="text-sm font-normal text-muted-foreground">/night</span>
                   </div>
-                  <Button className="btn-luxury">
+                  <Button className="btn-luxury" onClick={() => handleBookNow(hotel)}>
                     Book Now
                   </Button>
                 </div>
@@ -252,7 +267,7 @@ const Hotels = () => {
           ))}
         </div>
       </main>
-
+      <BookingModal isOpen={modalOpen} onClose={handleCloseModal} hotel={selectedHotel} />
       <Footer />
     </div>
   );
